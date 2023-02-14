@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Film_Collection.Models
 {
+    //Model for the form
     public class MovieRatings
     {
         [Key]
