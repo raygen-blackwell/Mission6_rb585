@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Film_Collection.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    [Migration("20230214003350_Initial")]
+    [Migration("20230221014232_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,15 +17,70 @@ namespace Film_Collection.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.32");
 
+            modelBuilder.Entity("Film_Collection.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryID = 4,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryID = 5,
+                            CategoryName = "Horror/Suspense"
+                        },
+                        new
+                        {
+                            CategoryID = 6,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryID = 7,
+                            CategoryName = "Television"
+                        },
+                        new
+                        {
+                            CategoryID = 8,
+                            CategoryName = "VHS"
+                        });
+                });
+
             modelBuilder.Entity("Film_Collection.Models.MovieRatings", b =>
                 {
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -53,13 +108,15 @@ namespace Film_Collection.Migrations
 
                     b.HasKey("MovieId");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("responses");
 
                     b.HasData(
                         new
                         {
                             MovieId = 1,
-                            Category = "Adventure/Musical",
+                            CategoryID = 4,
                             Director = "Rone Clements, John Musker",
                             Edited = true,
                             LentTo = "",
@@ -71,7 +128,7 @@ namespace Film_Collection.Migrations
                         new
                         {
                             MovieId = 2,
-                            Category = "Action/Adventure",
+                            CategoryID = 1,
                             Director = "Ryan Coogler",
                             Edited = true,
                             LentTo = "Taylor B.",
@@ -83,7 +140,7 @@ namespace Film_Collection.Migrations
                         new
                         {
                             MovieId = 3,
-                            Category = "Musical/Romance",
+                            CategoryID = 6,
                             Director = "Phyllida Lloyd",
                             Edited = true,
                             LentTo = "",
@@ -92,6 +149,15 @@ namespace Film_Collection.Migrations
                             Rating = "PG-13",
                             Year = 20
                         });
+                });
+
+            modelBuilder.Entity("Film_Collection.Models.MovieRatings", b =>
+                {
+                    b.HasOne("Film_Collection.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

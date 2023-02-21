@@ -15,14 +15,26 @@ namespace Film_Collection.Models
         }
 
         public DbSet<MovieRatings> responses { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
+        // Seed data
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            mb.Entity<Category>().HasData(
+                new Category { CategoryID = 1, CategoryName = "Action/Adventure" },
+                new Category { CategoryID = 2, CategoryName = "Comedy" },
+                new Category { CategoryID = 3, CategoryName = "Drama" },
+                new Category { CategoryID = 4, CategoryName = "Family" },
+                new Category { CategoryID = 5, CategoryName = "Horror/Suspense" },
+                new Category { CategoryID = 6, CategoryName = "Miscellaneous" },
+                new Category { CategoryID = 7, CategoryName = "Television" },
+                new Category { CategoryID = 8, CategoryName = "VHS" }
+            ) ; 
             mb.Entity<MovieRatings>().HasData(
                 new MovieRatings
                 {
                     MovieId = 1,
-                    Category = "Adventure/Musical",
+                    CategoryID = 4,
                     Year = 1997,
                     MovieTitle = "Hercules",
                     Director = "Rone Clements, John Musker",
@@ -34,7 +46,7 @@ namespace Film_Collection.Models
                 new MovieRatings
                 {
                     MovieId = 2,
-                    Category = "Action/Adventure",
+                    CategoryID = 1,
                     Year = 2022,
                     MovieTitle = "Black Panther:Wakanda Forever",
                     Director = "Ryan Coogler",
@@ -46,8 +58,8 @@ namespace Film_Collection.Models
                 new MovieRatings
                 {
                     MovieId = 3,
-                    Category = "Musical/Romance",
-                    Year = 20,
+                    CategoryID = 6,
+                    Year = 2016,
                     MovieTitle = "Mamma Mia!",
                     Director = "Phyllida Lloyd",
                     Rating = "PG-13",
